@@ -1,0 +1,38 @@
+{
+  "name": "raectjanam",
+  "version": "1.0.0",
+  "description": "This is react",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakshmisushma-20/Reactnam.git"
+  },
+  "keywords": [
+    "reac",
+    "namasthey",
+    ".sushma"
+  ],
+  "author": "sushma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lakshmisushma-20/Reactnam/issues"
+  },
+  "homepage": "https://github.com/lakshmisushma-20/Reactnam#readme",
+  "devDependencies": {
+    "parcel": "^2.9.3",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0"
+  },
+  "browerslist": [
+    "last 2 versions "
+  ]
+}
