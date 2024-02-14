@@ -36,46 +36,49 @@ const Body = () => {
   if (onlineStatus === false)
     return <h1>Looks like you,re offline!!Please check network</h1>;
 
-  return listOfRestraunt.length === 0 ? (
+  return listOfRestraunt && listOfRestraunt.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="search">
-          <input
-            type="text"
-            className="search-box"
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-          />
-          <button
-            onClick={() => {
-              console.log(searchText, listOfRestraunt);
-              const filteredRestraunt = listOfRestraunt.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-              );
-
-              setfilteredRestraunt(filteredRestraunt);
-            }}
-          >
-            Search{" "}
-          </button>
+      <div className="filter flex">
+        <div className="search m-4 p-4">
+          <div className="search m-4 p-4 flex items-center">
+            <input
+              type="text"
+              className="border border-solid border-black "
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+            />
+            <button
+              className="px-4 py-2 bg-pink-400 m-4  rounded-lg"
+              onClick={() => {
+                console.log(searchText, listOfRestraunt);
+                const filteredRestraunt = listOfRestraunt.filter((res) =>
+                  res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                );
+                console.log(filteredRestraunt, "its filtered");
+                setfilteredRestraunt(filteredRestraunt);
+              }}
+            >
+              Search{" "}
+            </button>
+            <button
+              className="px-4 py-2 bg-gray-100 rounded-lg"
+              onClick={() => {
+                const filteredList = listOfRestraunt.filter(
+                  (res) => res.info.avgRating > 4
+                );
+                setlistOfRestraunt(filteredList);
+              }}
+            >
+              Top Rated Restraunt{" "}
+            </button>
+          </div>
         </div>
-        <button
-          className="filter-butn"
-          onClick={() => {
-            const filteredList = listOfRestraunt.filter(
-              (res) => res.info.avgRating > 4
-            );
-            setlistOfRestraunt(filteredList);
-          }}
-        >
-          Top Rated Restraunt{" "}
-        </button>
       </div>
-      <div className="container">
+      <div className="flex flex-wrap">
         {filteredRestraunt.map((restaurant) => {
           return (
             <Link to={"/restaurants/" + restaurant.info.id}>
