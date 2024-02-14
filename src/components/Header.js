@@ -7,9 +7,9 @@ const Header = () => {
   //console.log("Hrader rendered");
 
   return (
-    <div className="header">
+    <div className="flex">
       <div className="logo-designer">
-        <img className="logo " src={LOGO_URL} />
+        <img className="w-56 " src={LOGO_URL} />
       </div>
       <div className="nav-items">
         <ul>
@@ -21,6 +21,9 @@ const Header = () => {
           </li>
           <li>
             <Link to="/contact"> CONTACT US</Link>
+          </li>
+          <li>
+            <Link to="/grocery">Grocery</Link>
           </li>
           <li>CART</li>
           <button

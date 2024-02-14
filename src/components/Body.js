@@ -2,6 +2,7 @@ import Restocard from "./Restocard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
   const [listOfRestraunt, setlistOfRestraunt] = useState([]);
@@ -21,15 +22,19 @@ const Body = () => {
     const json = await data.json();
     console.log(json);
     console.log(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setlistOfRestraunt(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setfilteredRestraunt(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+
+  const onlineStatus = useOnlineStatus();
+  if (onlineStatus === false)
+    return <h1>Looks like you,re offline!!Please check network</h1>;
 
   return listOfRestraunt.length === 0 ? (
     <Shimmer />
@@ -71,10 +76,10 @@ const Body = () => {
         </button>
       </div>
       <div className="container">
-        {filteredRestraunt.map((restraunt) => {
+        {filteredRestraunt.map((restaurant) => {
           return (
-            <Link to={"/restraunts/" + restraunt.info.name}>
-              <Restocard key={restraunt.info.id} resData={restraunt} />
+            <Link to={"/restaurants/" + restaurant.info.id}>
+              <Restocard key={restaurant.info.id} resData={restaurant} />
             </Link>
           );
         })}
