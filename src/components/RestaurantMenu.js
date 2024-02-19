@@ -7,7 +7,9 @@ import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
+
   const resInfo = useRestaurantMenu(resId);
+  const [showIndex, setShowIndex] = useState(null);
 
   if (resInfo === null) return <Shimmer />;
 
@@ -17,7 +19,6 @@ const RestaurantMenu = () => {
   const { itemCards } =
     resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
       ?.card || {};
-  console.log(resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
 
   const categories =
     resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
@@ -25,7 +26,7 @@ const RestaurantMenu = () => {
         c.card?.["card"]?.["@type"] ===
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
-  //console.log(categories, "categories");
+
   return (
     <div className="text-center">
       <h1 className="font-bold my-5 text-2xl">{name}</h1>
@@ -33,8 +34,13 @@ const RestaurantMenu = () => {
         {cuisines ? cuisines.join(",") : ""} - {costForTwoMessage}
       </p>
       {}
-      {categories.map((category) => (
-        <RestaurantCategory data={category?.card?.card} />
+      {categories.map((category, index) => (
+        <RestaurantCategory
+          key={category?.card?.card.title}
+          data={category?.card?.card}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}
+        />
       ))}
     </div>
   );

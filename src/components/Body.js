@@ -1,29 +1,25 @@
 import Restocard from "./Restocard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [listOfRestraunt, setlistOfRestraunt] = useState([]);
   const [filteredRestraunt, setfilteredRestraunt] = useState([]);
   const [searchText, setSearchText] = useState("");
-  console.log(listOfRestraunt);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    console.log("i am fetch ");
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.96340&lng=77.58550&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    console.log(json);
-    console.log(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+
     setlistOfRestraunt(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
@@ -34,7 +30,9 @@ const Body = () => {
 
   const onlineStatus = useOnlineStatus();
   if (onlineStatus === false)
-    return <h1>Looks like you,re offline!!Please check network</h1>;
+    return <h1>Looks like you're offline!!Please check network</h1>;
+
+  const { setUserName, loggedInUser } = useContext(UserContext);
 
   return listOfRestraunt && listOfRestraunt.length === 0 ? (
     <Shimmer />
@@ -54,27 +52,23 @@ const Body = () => {
             <button
               className="px-4 py-2 bg-pink-400 m-4  rounded-lg"
               onClick={() => {
-                console.log(searchText, listOfRestraunt);
                 const filteredRestraunt = listOfRestraunt.filter((res) =>
                   res.info.name.toLowerCase().includes(searchText.toLowerCase())
                 );
-                console.log(filteredRestraunt, "its filtered");
+
                 setfilteredRestraunt(filteredRestraunt);
               }}
             >
               Search{" "}
             </button>
-            <button
-              className="px-4 py-2 bg-gray-100 rounded-lg"
-              onClick={() => {
-                const filteredList = listOfRestraunt.filter(
-                  (res) => res.info.avgRating > 4
-                );
-                setlistOfRestraunt(filteredList);
-              }}
-            >
-              Top Rated Restraunt{" "}
-            </button>
+            <div className="search m-4 p-4 flex items-center">
+              <label>UserName:</label>
+              <input
+                className="border border-black p-2"
+                value={loggedInUser}
+                onChange={(e) => setUserName(e.target.value)}
+              ></input>
+            </div>
           </div>
         </div>
       </div>
