@@ -8,7 +8,7 @@ const Body = () => {
   const [listOfRestraunt, setlistOfRestraunt] = useState([]);
   const [filteredRestraunt, setfilteredRestraunt] = useState([]);
   const [searchText, setSearchText] = useState("");
-  console.log("Body rendered");
+  console.log(listOfRestraunt);
 
   useEffect(() => {
     fetchData();
